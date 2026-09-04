@@ -69,17 +69,24 @@ jobs:
         run: |
           flutter pub get
           
-      - name: 🔐 设置签名配置
+      - name: 🔐 设置签名配置（优先 secrets，否则生成临时测试密钥）
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
-          echo "storeFile=upload-keystore.jks" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-          echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          # 调试信息（不会显示敏感内容）
-          echo "检查 key.properties 是否创建成功:"
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+            echo "storeFile=upload-keystore.jks" >> android/key.properties
+            echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+            echo "storePassword=${{ secrets.STORE_PASSWORD }}" >> android/key.properties
+            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+            echo "使用仓库 secrets 签名"
+          else
+            keytool -genkeypair -v -keystore android/app/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload -storepass astral_ci_2026 -keypass astral_ci_2026 -dname "CN=Astral CI, OU=Astral, O=Astral, L=City, S=State, C=CN"
+            echo "storeFile=upload-keystore.jks" >> android/key.properties
+            echo "keyAlias=upload" >> android/key.properties
+            echo "storePassword=astral_ci_2026" >> android/key.properties
+            echo "keyPassword=astral_ci_2026" >> android/key.properties
+            echo "使用 CI 临时测试密钥签名（非官方，仅供安装测试）"
+          fi
           ls -la android/key.properties
-          echo "检查 keystore 是否创建成功:"
           ls -la android/app/upload-keystore.jks
 
       - name: 🐦 设置 Flutter
@@ -104,3 +111,10 @@ jobs:
         with:
           name: astral-arm64-v8a-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: 🚀 发布到 GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/app/outputs/flutter-apk/app-release.apk
+          generate_release_notes: true
