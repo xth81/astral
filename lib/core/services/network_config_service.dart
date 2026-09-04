@@ -171,11 +171,6 @@ class NetworkConfigService {
     await _repo.update((c) => c.disable_upnp = value);
   }
 
-  Future<void> updatePreferPeerRelay(bool value) async {
-    state.preferPeerRelay.value = value;
-    await _repo.update((c) => c.prefer_peer_relay = value);
-  }
-
   Future<void> updateDisableRelayData(bool value) async {
     state.disableRelayData.value = value;
     await _repo.update((c) => c.disable_relay_data = value);
@@ -199,11 +194,6 @@ class NetworkConfigService {
   Future<void> updateStunServers(List<String> value) async {
     state.stunServers.value = value;
     await _repo.update((c) => c.stun_servers = value);
-  }
-
-  Future<void> updateTcpStunServers(List<String> value) async {
-    state.tcpStunServers.value = value;
-    await _repo.update((c) => c.tcp_stun_servers = value);
   }
 
   Future<void> updateStunServersV6(List<String> value) async {

@@ -357,7 +357,6 @@ pub fn create_server_with_flags(
         flags.lazy_p2p = flag.lazy_p2p;
         flags.need_p2p = flag.need_p2p;
         flags.disable_upnp = flag.disable_upnp;
-        flags.prefer_peer_relay = flag.prefer_peer_relay;
         flags.disable_relay_data = flag.disable_relay_data;
         flags.disable_relay_quic = flag.disable_relay_quic;
         flags.tld_dns_zone = flag.tld_dns_zone;
@@ -379,9 +378,7 @@ pub fn create_server_with_flags(
         if !flag.stun_servers.is_empty() {
             cfg.set_stun_servers(Some(flag.stun_servers.clone()));
         }
-        if !flag.tcp_stun_servers.is_empty() {
-            cfg.set_tcp_stun_servers(Some(flag.tcp_stun_servers.clone()));
-        }
+        // tcp_stun_servers 为 EasyTier 较新版本特性，当前 2.6.4 不支持，暂忽略
         if !flag.stun_servers_v6.is_empty() {
             cfg.set_stun_servers_v6(Some(flag.stun_servers_v6.clone()));
         }

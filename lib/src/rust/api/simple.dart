@@ -108,7 +108,6 @@ class FlagsC {
   final bool lazyP2p;
   final bool needP2p;
   final bool disableUpnp;
-  final bool preferPeerRelay;
   final bool disableRelayData;
   final bool disableRelayQuic;
   final String tldDnsZone;
@@ -117,8 +116,6 @@ class FlagsC {
   final List<String> exitNodes;
   /// STUN 服务器列表（EasyTier stun_servers）
   final List<String> stunServers;
-  /// TCP STUN 服务器列表（EasyTier tcp_stun_servers）
-  final List<String> tcpStunServers;
   /// IPv6 STUN 服务器列表（EasyTier stun_servers_v6）
   final List<String> stunServersV6;
   /// 安全模式（SecureModeConfig.enabled）
@@ -168,13 +165,11 @@ class FlagsC {
     required this.lazyP2p,
     required this.needP2p,
     required this.disableUpnp,
-    required this.preferPeerRelay,
     required this.disableRelayData,
     required this.disableRelayQuic,
     required this.tldDnsZone,
     required this.exitNodes,
     required this.stunServers,
-    required this.tcpStunServers,
     required this.stunServersV6,
     required this.secureModeEnabled,
     required this.localPrivateKey,
@@ -220,13 +215,11 @@ class FlagsC {
       lazyP2p.hashCode ^
       needP2p.hashCode ^
       disableUpnp.hashCode ^
-      preferPeerRelay.hashCode ^
       disableRelayData.hashCode ^
       disableRelayQuic.hashCode ^
       tldDnsZone.hashCode ^
       exitNodes.hashCode ^
       stunServers.hashCode ^
-      tcpStunServers.hashCode ^
       stunServersV6.hashCode ^
       secureModeEnabled.hashCode ^
       localPrivateKey.hashCode ^
@@ -274,13 +267,11 @@ class FlagsC {
           lazyP2p == other.lazyP2p &&
           needP2p == other.needP2p &&
           disableUpnp == other.disableUpnp &&
-          preferPeerRelay == other.preferPeerRelay &&
           disableRelayData == other.disableRelayData &&
           disableRelayQuic == other.disableRelayQuic &&
           tldDnsZone == other.tldDnsZone &&
           exitNodes == other.exitNodes &&
           stunServers == other.stunServers &&
-          tcpStunServers == other.tcpStunServers &&
           stunServersV6 == other.stunServersV6 &&
           secureModeEnabled == other.secureModeEnabled &&
           localPrivateKey == other.localPrivateKey &&

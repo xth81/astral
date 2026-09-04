@@ -2814,13 +2814,11 @@ impl SseDecode for crate::api::simple::FlagsC {
         let mut var_lazyP2p = <bool>::sse_decode(deserializer);
         let mut var_needP2p = <bool>::sse_decode(deserializer);
         let mut var_disableUpnp = <bool>::sse_decode(deserializer);
-        let mut var_preferPeerRelay = <bool>::sse_decode(deserializer);
         let mut var_disableRelayData = <bool>::sse_decode(deserializer);
         let mut var_disableRelayQuic = <bool>::sse_decode(deserializer);
         let mut var_tldDnsZone = <String>::sse_decode(deserializer);
         let mut var_exitNodes = <Vec<String>>::sse_decode(deserializer);
         let mut var_stunServers = <Vec<String>>::sse_decode(deserializer);
-        let mut var_tcpStunServers = <Vec<String>>::sse_decode(deserializer);
         let mut var_stunServersV6 = <Vec<String>>::sse_decode(deserializer);
         let mut var_secureModeEnabled = <bool>::sse_decode(deserializer);
         let mut var_localPrivateKey = <String>::sse_decode(deserializer);
@@ -2863,13 +2861,11 @@ impl SseDecode for crate::api::simple::FlagsC {
             lazy_p2p: var_lazyP2p,
             need_p2p: var_needP2p,
             disable_upnp: var_disableUpnp,
-            prefer_peer_relay: var_preferPeerRelay,
             disable_relay_data: var_disableRelayData,
             disable_relay_quic: var_disableRelayQuic,
             tld_dns_zone: var_tldDnsZone,
             exit_nodes: var_exitNodes,
             stun_servers: var_stunServers,
-            tcp_stun_servers: var_tcpStunServers,
             stun_servers_v6: var_stunServersV6,
             secure_mode_enabled: var_secureModeEnabled,
             local_private_key: var_localPrivateKey,
@@ -3683,13 +3679,11 @@ impl flutter_rust_bridge::IntoDart for crate::api::simple::FlagsC {
             self.lazy_p2p.into_into_dart().into_dart(),
             self.need_p2p.into_into_dart().into_dart(),
             self.disable_upnp.into_into_dart().into_dart(),
-            self.prefer_peer_relay.into_into_dart().into_dart(),
             self.disable_relay_data.into_into_dart().into_dart(),
             self.disable_relay_quic.into_into_dart().into_dart(),
             self.tld_dns_zone.into_into_dart().into_dart(),
             self.exit_nodes.into_into_dart().into_dart(),
             self.stun_servers.into_into_dart().into_dart(),
-            self.tcp_stun_servers.into_into_dart().into_dart(),
             self.stun_servers_v6.into_into_dart().into_dart(),
             self.secure_mode_enabled.into_into_dart().into_dart(),
             self.local_private_key.into_into_dart().into_dart(),
@@ -4163,13 +4157,11 @@ impl SseEncode for crate::api::simple::FlagsC {
         <bool>::sse_encode(self.lazy_p2p, serializer);
         <bool>::sse_encode(self.need_p2p, serializer);
         <bool>::sse_encode(self.disable_upnp, serializer);
-        <bool>::sse_encode(self.prefer_peer_relay, serializer);
         <bool>::sse_encode(self.disable_relay_data, serializer);
         <bool>::sse_encode(self.disable_relay_quic, serializer);
         <String>::sse_encode(self.tld_dns_zone, serializer);
         <Vec<String>>::sse_encode(self.exit_nodes, serializer);
         <Vec<String>>::sse_encode(self.stun_servers, serializer);
-        <Vec<String>>::sse_encode(self.tcp_stun_servers, serializer);
         <Vec<String>>::sse_encode(self.stun_servers_v6, serializer);
         <bool>::sse_encode(self.secure_mode_enabled, serializer);
         <String>::sse_encode(self.local_private_key, serializer);

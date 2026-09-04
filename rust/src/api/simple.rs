@@ -391,7 +391,6 @@ pub struct FlagsC {
     pub lazy_p2p: bool,
     pub need_p2p: bool,
     pub disable_upnp: bool,
-    pub prefer_peer_relay: bool,
     pub disable_relay_data: bool,
     pub disable_relay_quic: bool,
     pub tld_dns_zone: String,
@@ -399,8 +398,6 @@ pub struct FlagsC {
     pub exit_nodes: Vec<String>,
     /// STUN 服务器列表（EasyTier stun_servers）
     pub stun_servers: Vec<String>,
-    /// TCP STUN 服务器列表（EasyTier tcp_stun_servers）
-    pub tcp_stun_servers: Vec<String>,
     /// IPv6 STUN 服务器列表（EasyTier stun_servers_v6）
     pub stun_servers_v6: Vec<String>,
     /// 安全模式（SecureModeConfig.enabled）
@@ -510,7 +507,6 @@ pub fn create_server(
         flags.lazy_p2p = flag.lazy_p2p;
         flags.need_p2p = flag.need_p2p;
         flags.disable_upnp = flag.disable_upnp;
-        flags.prefer_peer_relay = flag.prefer_peer_relay;
         flags.disable_relay_data = flag.disable_relay_data;
         flags.disable_relay_quic = flag.disable_relay_quic;
         flags.tld_dns_zone = flag.tld_dns_zone;
@@ -532,9 +528,7 @@ pub fn create_server(
         if !flag.stun_servers.is_empty() {
             cfg.set_stun_servers(Some(flag.stun_servers.clone()));
         }
-        if !flag.tcp_stun_servers.is_empty() {
-            cfg.set_tcp_stun_servers(Some(flag.tcp_stun_servers.clone()));
-        }
+        // tcp_stun_servers 为 EasyTier 较新版本特性，当前 2.6.4 不支持，暂忽略
         if !flag.stun_servers_v6.is_empty() {
             cfg.set_stun_servers_v6(Some(flag.stun_servers_v6.clone()));
         }

@@ -161,9 +161,6 @@ class NetConfig {
   /// 禁用UPnP
   bool disable_upnp = false;
 
-  /// 优先使用对等节点中继
-  bool prefer_peer_relay = false;
-
   /// 禁用中继数据转发
   bool disable_relay_data = false;
 
@@ -178,9 +175,6 @@ class NetConfig {
 
   /// STUN 服务器列表（EasyTier stun_servers）
   List<String> stun_servers = [];
-
-  /// TCP STUN 服务器列表（EasyTier tcp_stun_servers）
-  List<String> tcp_stun_servers = [];
 
   /// IPv6 STUN 服务器列表（EasyTier stun_servers_v6）
   List<String> stun_servers_v6 = [];

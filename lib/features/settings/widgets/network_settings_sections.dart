@@ -590,14 +590,6 @@ class EasyTierCompatSettingsCard extends StatelessWidget {
           },
         ),
         SwitchListTile(
-          title: Text('优先对等中继'),
-          subtitle: Text('EasyTier prefer_peer_relay，优先使用对等节点作为中继'),
-          value: nc.preferPeerRelay.watch(context),
-          onChanged: (value) {
-            ServiceManager().networkConfig.updatePreferPeerRelay(value);
-          },
-        ),
-        SwitchListTile(
           title: Text('禁用中继数据'),
           subtitle: Text('EasyTier disable_relay_data'),
           value: nc.disableRelayData.watch(context),
@@ -673,28 +665,6 @@ class EasyTierCompatSettingsCard extends StatelessWidget {
               ),
               onFieldSubmitted: (value) {
                 ServiceManager().networkConfig.updateStunServers(
-                  _splitList(value),
-                );
-              },
-            ),
-          ),
-        ),
-        _divider(),
-        ListTile(
-          title: Text('TCP STUN 服务器'),
-          subtitle: Text('EasyTier tcp_stun_servers（逗号分隔）'),
-          trailing: SizedBox(
-            width: 160,
-            child: TextFormField(
-              key: ValueKey(nc.tcpStunServers.watch(context).join(',')),
-              initialValue: nc.tcpStunServers.watch(context).join(','),
-              textAlign: TextAlign.end,
-              decoration: const InputDecoration(
-                isDense: true,
-                border: OutlineInputBorder(),
-              ),
-              onFieldSubmitted: (value) {
-                ServiceManager().networkConfig.updateTcpStunServers(
                   _splitList(value),
                 );
               },

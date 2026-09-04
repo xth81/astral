@@ -2807,8 +2807,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   FlagsC dco_decode_flags_c(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 48)
-      throw Exception('unexpected arr length: expect 48 but see ${arr.length}');
+    if (arr.length != 47)
+      throw Exception('unexpected arr length: expect 47 but see ${arr.length}');
     return FlagsC(
       defaultProtocol: dco_decode_String(arr[0]),
       devName: dco_decode_String(arr[1]),
@@ -2845,19 +2845,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       lazyP2p: dco_decode_bool(arr[32]),
       needP2p: dco_decode_bool(arr[33]),
       disableUpnp: dco_decode_bool(arr[34]),
-      preferPeerRelay: dco_decode_bool(arr[35]),
-      disableRelayData: dco_decode_bool(arr[36]),
-      disableRelayQuic: dco_decode_bool(arr[37]),
-      tldDnsZone: dco_decode_String(arr[38]),
-      exitNodes: dco_decode_list_String(arr[39]),
-      stunServers: dco_decode_list_String(arr[40]),
-      tcpStunServers: dco_decode_list_String(arr[41]),
-      stunServersV6: dco_decode_list_String(arr[42]),
-      secureModeEnabled: dco_decode_bool(arr[43]),
-      localPrivateKey: dco_decode_String(arr[44]),
-      localPublicKey: dco_decode_String(arr[45]),
-      manualRoutes: dco_decode_list_String(arr[46]),
-      peerPublicKeys: dco_decode_list_String(arr[47]),
+      disableRelayData: dco_decode_bool(arr[35]),
+      disableRelayQuic: dco_decode_bool(arr[36]),
+      tldDnsZone: dco_decode_String(arr[37]),
+      exitNodes: dco_decode_list_String(arr[38]),
+      stunServers: dco_decode_list_String(arr[39]),
+      stunServersV6: dco_decode_list_String(arr[40]),
+      secureModeEnabled: dco_decode_bool(arr[41]),
+      localPrivateKey: dco_decode_String(arr[42]),
+      localPublicKey: dco_decode_String(arr[43]),
+      manualRoutes: dco_decode_list_String(arr[44]),
+      peerPublicKeys: dco_decode_list_String(arr[45]),
     );
   }
 
@@ -3494,13 +3492,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_lazyP2p = sse_decode_bool(deserializer);
     var var_needP2p = sse_decode_bool(deserializer);
     var var_disableUpnp = sse_decode_bool(deserializer);
-    var var_preferPeerRelay = sse_decode_bool(deserializer);
     var var_disableRelayData = sse_decode_bool(deserializer);
     var var_disableRelayQuic = sse_decode_bool(deserializer);
     var var_tldDnsZone = sse_decode_String(deserializer);
     var var_exitNodes = sse_decode_list_String(deserializer);
     var var_stunServers = sse_decode_list_String(deserializer);
-    var var_tcpStunServers = sse_decode_list_String(deserializer);
     var var_stunServersV6 = sse_decode_list_String(deserializer);
     var var_secureModeEnabled = sse_decode_bool(deserializer);
     var var_localPrivateKey = sse_decode_String(deserializer);
@@ -3543,13 +3539,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       lazyP2p: var_lazyP2p,
       needP2p: var_needP2p,
       disableUpnp: var_disableUpnp,
-      preferPeerRelay: var_preferPeerRelay,
       disableRelayData: var_disableRelayData,
       disableRelayQuic: var_disableRelayQuic,
       tldDnsZone: var_tldDnsZone,
       exitNodes: var_exitNodes,
       stunServers: var_stunServers,
-      tcpStunServers: var_tcpStunServers,
       stunServersV6: var_stunServersV6,
       secureModeEnabled: var_secureModeEnabled,
       localPrivateKey: var_localPrivateKey,
@@ -4310,13 +4304,11 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_bool(self.lazyP2p, serializer);
     sse_encode_bool(self.needP2p, serializer);
     sse_encode_bool(self.disableUpnp, serializer);
-    sse_encode_bool(self.preferPeerRelay, serializer);
     sse_encode_bool(self.disableRelayData, serializer);
     sse_encode_bool(self.disableRelayQuic, serializer);
     sse_encode_String(self.tldDnsZone, serializer);
     sse_encode_list_String(self.exitNodes, serializer);
     sse_encode_list_String(self.stunServers, serializer);
-    sse_encode_list_String(self.tcpStunServers, serializer);
     sse_encode_list_String(self.stunServersV6, serializer);
     sse_encode_bool(self.secureModeEnabled, serializer);
     sse_encode_String(self.localPrivateKey, serializer);

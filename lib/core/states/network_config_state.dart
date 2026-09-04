@@ -65,15 +65,13 @@ class NetworkConfigState {
   final lazyP2p = signal(false);
   final needP2p = signal(false);
   final disableUpnp = signal(false);
-  final preferPeerRelay = signal(false);
   final disableRelayData = signal(false);
   final disableRelayQuic = signal(false);
   final tldDnsZone = signal('et.net.');
 
-  // ========== EasyTier 出口/STUN/安全模式/路由 (10个) ==========
+  // ========== EasyTier 出口/安全模式/路由 (8个) ==========
   final exitNodes = signal<List<String>>([]);
   final stunServers = signal<List<String>>([]);
-  final tcpStunServers = signal<List<String>>([]);
   final stunServersV6 = signal<List<String>>([]);
   final secureModeEnabled = signal(false);
   final localPrivateKey = signal('');
@@ -136,13 +134,11 @@ class NetworkConfigState {
     lazyP2p.value = config.lazy_p2p;
     needP2p.value = config.need_p2p;
     disableUpnp.value = config.disable_upnp;
-    preferPeerRelay.value = config.prefer_peer_relay;
     disableRelayData.value = config.disable_relay_data;
     disableRelayQuic.value = config.disable_relay_quic;
     tldDnsZone.value = config.tld_dns_zone;
     exitNodes.value = List<String>.from(config.exit_nodes);
     stunServers.value = List<String>.from(config.stun_servers);
-    tcpStunServers.value = List<String>.from(config.tcp_stun_servers);
     stunServersV6.value = List<String>.from(config.stun_servers_v6);
     secureModeEnabled.value = config.secure_mode_enabled;
     localPrivateKey.value = config.local_private_key;
