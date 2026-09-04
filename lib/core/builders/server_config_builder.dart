@@ -104,13 +104,18 @@ class ServerConfigBuilder {
 
   /// 设置房间信息
   ///
-  /// EasyTier 的 network_name / network_secret 默认取房间的 roomName / password；
-  /// 若用户在设置中填了自定义网络名称/密钥，则优先使用自定义值（原版易难模式）。
+  /// EasyTier 的 network_name / network_secret 优先取房间自定义的
+  /// networkName / networkSecret；留空则回退到房间的 roomName / password。
   ServerConfigBuilder withRoom(dynamic room) {
-    final customName = _services.networkConfigState.networkName.value;
-    final customSecret = _services.networkConfigState.networkSecret.value;
+    final customName = (room.networkName != null && room.networkName.isNotEmpty)
+        ? room.networkName as String
+        : null;
+    final customSecret =
+        (room.networkSecret != null && room.networkSecret.isNotEmpty)
+            ? room.networkSecret as String
+            : null;
 
-    if (customName.isNotEmpty) {
+    if (customName != null) {
       _roomName = customName;
       _log('网络名称: 自定义 $customName');
     } else {
@@ -118,7 +123,7 @@ class ServerConfigBuilder {
       _log('网络名称: 房间 ${room.roomName}');
     }
 
-    if (customSecret.isNotEmpty) {
+    if (customSecret != null) {
       _roomPassword = customSecret;
       _log('网络密钥: 自定义');
     } else {

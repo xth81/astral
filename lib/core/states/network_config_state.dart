@@ -12,9 +12,7 @@ class NetworkConfigState {
   final dhcp = signal(true);
   final autoSetMTU = signal(true);
 
-  // ========== 网络连接配置 (6个) ==========
-  final networkName = signal('');
-  final networkSecret = signal('');
+  // ========== 网络连接配置 (4个) ==========
   final listeners = signal<List<String>>([]);
   final peer = signal<List<String>>([]);
   final defaultProtocol = signal('');
@@ -93,8 +91,6 @@ class NetworkConfigState {
     instanceName.value = config.instance_name;
     ipv4.value = config.ipv4;
     dhcp.value = config.dhcp;
-    networkName.value = config.network_name;
-    networkSecret.value = config.network_secret;
     listeners.value = List<String>.from(config.listeners);
     peer.value = List<String>.from(config.peer);
     defaultProtocol.value = config.default_protocol;

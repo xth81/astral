@@ -226,16 +226,6 @@ class NetworkConfigService {
     await _repo.update((c) => c.peer_public_keys = value);
   }
 
-  Future<void> updateNetworkName(String value) async {
-    state.networkName.value = value;
-    await _repo.update((c) => c.network_name = value);
-  }
-
-  Future<void> updateNetworkSecret(String value) async {
-    state.networkSecret.value = value;
-    await _repo.update((c) => c.network_secret = value);
-  }
-
   Future<void> updateEnableUdpBroadcastRelay(bool value) async {
     state.enableUdpBroadcastRelay.value = value;
     await _repo.update((c) => c.enable_udp_broadcast_relay = value);

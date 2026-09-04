@@ -12,6 +12,10 @@ class Room {
   String roomName = "";
   // 房间密码
   String password = "";
+  // EasyTier 网络名称（可选，留空用 roomName）
+  String networkName = "";
+  // EasyTier 网络密钥（可选，留空用 password）
+  String networkSecret = "";
   // 消息密钥
   String messageKey = "";
   // 房间标签
@@ -35,6 +39,8 @@ class Room {
     this.roomName = "",
     this.messageKey = "",
     this.password = "",
+    this.networkName = "",
+    this.networkSecret = "",
     this.tags = const [],
     this.sortOrder = 0,
     this.servers = const [],

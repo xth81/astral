@@ -38,27 +38,37 @@ const RoomSchema = CollectionSchema(
       name: r'networkConfigJson',
       type: IsarType.string,
     ),
-    r'password': PropertySchema(
+    r'networkName': PropertySchema(
       id: 5,
+      name: r'networkName',
+      type: IsarType.string,
+    ),
+    r'networkSecret': PropertySchema(
+      id: 6,
+      name: r'networkSecret',
+      type: IsarType.string,
+    ),
+    r'password': PropertySchema(
+      id: 7,
       name: r'password',
       type: IsarType.string,
     ),
     r'roomName': PropertySchema(
-      id: 6,
+      id: 8,
       name: r'roomName',
       type: IsarType.string,
     ),
     r'servers': PropertySchema(
-      id: 7,
+      id: 9,
       name: r'servers',
       type: IsarType.stringList,
     ),
     r'sortOrder': PropertySchema(
-      id: 8,
+      id: 10,
       name: r'sortOrder',
       type: IsarType.long,
     ),
-    r'tags': PropertySchema(id: 9, name: r'tags', type: IsarType.stringList),
+    r'tags': PropertySchema(id: 11, name: r'tags', type: IsarType.stringList),
   },
 
   estimateSize: _roomEstimateSize,
@@ -86,6 +96,8 @@ int _roomEstimateSize(
   bytesCount += 3 + object.messageKey.length * 3;
   bytesCount += 3 + object.name.length * 3;
   bytesCount += 3 + object.networkConfigJson.length * 3;
+  bytesCount += 3 + object.networkName.length * 3;
+  bytesCount += 3 + object.networkSecret.length * 3;
   bytesCount += 3 + object.password.length * 3;
   bytesCount += 3 + object.roomName.length * 3;
   bytesCount += 3 + object.servers.length * 3;
@@ -116,11 +128,13 @@ void _roomSerialize(
   writer.writeString(offsets[2], object.messageKey);
   writer.writeString(offsets[3], object.name);
   writer.writeString(offsets[4], object.networkConfigJson);
-  writer.writeString(offsets[5], object.password);
-  writer.writeString(offsets[6], object.roomName);
-  writer.writeStringList(offsets[7], object.servers);
-  writer.writeLong(offsets[8], object.sortOrder);
-  writer.writeStringList(offsets[9], object.tags);
+  writer.writeString(offsets[5], object.networkName);
+  writer.writeString(offsets[6], object.networkSecret);
+  writer.writeString(offsets[7], object.password);
+  writer.writeString(offsets[8], object.roomName);
+  writer.writeStringList(offsets[9], object.servers);
+  writer.writeLong(offsets[10], object.sortOrder);
+  writer.writeStringList(offsets[11], object.tags);
 }
 
 Room _roomDeserialize(
@@ -136,11 +150,13 @@ Room _roomDeserialize(
     messageKey: reader.readStringOrNull(offsets[2]) ?? "",
     name: reader.readStringOrNull(offsets[3]) ?? "",
     networkConfigJson: reader.readStringOrNull(offsets[4]) ?? "",
-    password: reader.readStringOrNull(offsets[5]) ?? "",
-    roomName: reader.readStringOrNull(offsets[6]) ?? "",
-    servers: reader.readStringList(offsets[7]) ?? const [],
-    sortOrder: reader.readLongOrNull(offsets[8]) ?? 0,
-    tags: reader.readStringList(offsets[9]) ?? const [],
+    networkName: reader.readStringOrNull(offsets[5]) ?? "",
+    networkSecret: reader.readStringOrNull(offsets[6]) ?? "",
+    password: reader.readStringOrNull(offsets[7]) ?? "",
+    roomName: reader.readStringOrNull(offsets[8]) ?? "",
+    servers: reader.readStringList(offsets[9]) ?? const [],
+    sortOrder: reader.readLongOrNull(offsets[10]) ?? 0,
+    tags: reader.readStringList(offsets[11]) ?? const [],
   );
   return object;
 }
@@ -167,10 +183,14 @@ P _roomDeserializeProp<P>(
     case 6:
       return (reader.readStringOrNull(offset) ?? "") as P;
     case 7:
-      return (reader.readStringList(offset) ?? const []) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 8:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
+      return (reader.readStringOrNull(offset) ?? "") as P;
     case 9:
+      return (reader.readStringList(offset) ?? const []) as P;
+    case 10:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
+    case 11:
       return (reader.readStringList(offset) ?? const []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');

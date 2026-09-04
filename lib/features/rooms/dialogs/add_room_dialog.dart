@@ -7,6 +7,8 @@ Future<void> showAddRoomDialog(BuildContext context) async {
   String? name = RandomName();
   String? roomName;
   String? roomPassword;
+  String? networkName;
+  String? networkSecret;
 
   await showDialog(
     context: context,
@@ -45,7 +47,24 @@ Future<void> showAddRoomDialog(BuildContext context) async {
                     decoration: const InputDecoration(labelText: '房间密码'),
                     onChanged: (value) => roomPassword = value,
                   ),
+                  const SizedBox(height: 8),
                 ],
+                const Divider(),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'EasyTier 网络名称',
+                    helperText: 'EasyTier network name，留空使用房间号',
+                  ),
+                  onChanged: (value) => networkName = value,
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'EasyTier 网络密钥',
+                    helperText: 'EasyTier network secret，留空使用房间密码',
+                  ),
+                  onChanged: (value) => networkSecret = value,
+                ),
               ],
             ),
             actions: [
@@ -60,6 +79,8 @@ Future<void> showAddRoomDialog(BuildContext context) async {
                     name ?? RandomName(),
                     roomName ?? "",
                     roomPassword ?? "",
+                    networkName ?? "",
+                    networkSecret ?? "",
                   );
                   Navigator.of(context).pop();
                 },

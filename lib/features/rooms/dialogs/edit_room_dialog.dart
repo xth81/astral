@@ -79,6 +79,25 @@ Future<void> showEditRoomDialog(
                 onChanged: (value) => room.password = value,
               ),
             ],
+            const SizedBox(height: 8),
+            const Divider(),
+            TextField(
+              controller: TextEditingController(text: room.networkName),
+              decoration: const InputDecoration(
+                labelText: 'EasyTier 网络名称',
+                helperText: 'EasyTier network name，留空使用房间号',
+              ),
+              onChanged: (value) => room.networkName = value,
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: TextEditingController(text: room.networkSecret),
+              decoration: const InputDecoration(
+                labelText: 'EasyTier 网络密钥',
+                helperText: 'EasyTier network secret，留空使用房间密码',
+              ),
+              onChanged: (value) => room.networkSecret = value,
+            ),
           ],
         ),
         actions: [

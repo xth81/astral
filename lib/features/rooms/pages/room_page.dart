@@ -272,6 +272,8 @@ void addEncryptedRoom(
   String? name,
   String? roomname,
   String? password,
+  String? networkName,
+  String? networkSecret,
 ) {
   var room = Room(
     name: name ?? RandomName(), // 如果 name 为 null，则使用空字符串
@@ -279,6 +281,8 @@ void addEncryptedRoom(
     roomName:
         isEncrypted ? Uuid().v4() : (roomname ?? ""), // 如果未加密，则使用随机UUID作为房间名
     password: isEncrypted ? Uuid().v4() : (password ?? ""), // 如果未加密，则生成一个随机密码
+    networkName: networkName ?? "",
+    networkSecret: networkSecret ?? "",
     messageKey: isEncrypted ? Uuid().v4() : "",
     tags: [],
   );
