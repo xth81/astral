@@ -45,6 +45,7 @@ class _ServerDialogState extends State<ServerDialog> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _urlController = TextEditingController();
+  final _pubKeyController = TextEditingController();
 
   bool _tcp = true;
   bool _faketcp = false;
@@ -66,6 +67,7 @@ class _ServerDialogState extends State<ServerDialog> {
     if (widget.server != null) {
       _nameController.text = widget.server!.name;
       _urlController.text = widget.server!.url;
+      _pubKeyController.text = widget.server!.peer_public_key;
 
       _tcp = widget.server!.tcp;
       _faketcp = widget.server!.faketcp;
@@ -106,6 +108,7 @@ class _ServerDialogState extends State<ServerDialog> {
         srv: _srv,
         http: _http, // <-- 保存 HTTP 状态
         https: _https, // <-- 保存 HTTPS 状态
+        peer_public_key: _pubKeyController.text.trim(),
       );
 
       if (widget.server == null) {
@@ -169,6 +172,17 @@ class _ServerDialogState extends State<ServerDialog> {
                   }
                   return null;
                 },
+              ),
+              const SizedBox(height: 16),
+
+              // EasyTier peer 公钥（可选）
+              TextFormField(
+                controller: _pubKeyController,
+                decoration: const InputDecoration(
+                  labelText: 'Peer 公钥（可选）',
+                  hintText: 'base64 X25519 公钥，留空则不固定',
+                  helperText: 'EasyTier peer_public_key，验证对方身份',
+                ),
               ),
               const SizedBox(height: 24),
 

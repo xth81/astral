@@ -205,6 +205,96 @@ const NetConfigSchema = CollectionSchema(
       name: r'use_smoltcp',
       type: IsarType.bool,
     ),
+    r'disable_relay_data': PropertySchema(
+      id: 42,
+      name: r'disable_relay_data',
+      type: IsarType.bool,
+    ),
+    r'disable_relay_quic': PropertySchema(
+      id: 43,
+      name: r'disable_relay_quic',
+      type: IsarType.bool,
+    ),
+    r'disable_upnp': PropertySchema(
+      id: 44,
+      name: r'disable_upnp',
+      type: IsarType.bool,
+    ),
+    r'encryption_algorithm': PropertySchema(
+      id: 45,
+      name: r'encryption_algorithm',
+      type: IsarType.string,
+    ),
+    r'lazy_p2p': PropertySchema(
+      id: 46,
+      name: r'lazy_p2p',
+      type: IsarType.bool,
+    ),
+    r'need_p2p': PropertySchema(
+      id: 47,
+      name: r'need_p2p',
+      type: IsarType.bool,
+    ),
+    r'p2p_only': PropertySchema(
+      id: 48,
+      name: r'p2p_only',
+      type: IsarType.bool,
+    ),
+    r'prefer_peer_relay': PropertySchema(
+      id: 49,
+      name: r'prefer_peer_relay',
+      type: IsarType.bool,
+    ),
+    r'tld_dns_zone': PropertySchema(
+      id: 50,
+      name: r'tld_dns_zone',
+      type: IsarType.string,
+    ),
+    r'exit_nodes': PropertySchema(
+      id: 51,
+      name: r'exit_nodes',
+      type: IsarType.stringList,
+    ),
+    r'local_private_key': PropertySchema(
+      id: 52,
+      name: r'local_private_key',
+      type: IsarType.string,
+    ),
+    r'local_public_key': PropertySchema(
+      id: 53,
+      name: r'local_public_key',
+      type: IsarType.string,
+    ),
+    r'manual_routes': PropertySchema(
+      id: 54,
+      name: r'manual_routes',
+      type: IsarType.stringList,
+    ),
+    r'peer_public_keys': PropertySchema(
+      id: 55,
+      name: r'peer_public_keys',
+      type: IsarType.stringList,
+    ),
+    r'secure_mode_enabled': PropertySchema(
+      id: 56,
+      name: r'secure_mode_enabled',
+      type: IsarType.bool,
+    ),
+    r'stun_servers': PropertySchema(
+      id: 57,
+      name: r'stun_servers',
+      type: IsarType.stringList,
+    ),
+    r'stun_servers_v6': PropertySchema(
+      id: 58,
+      name: r'stun_servers_v6',
+      type: IsarType.stringList,
+    ),
+    r'tcp_stun_servers': PropertySchema(
+      id: 59,
+      name: r'tcp_stun_servers',
+      type: IsarType.stringList,
+    ),
   },
 
   estimateSize: _netConfigEstimateSize,
@@ -273,8 +363,54 @@ int _netConfigEstimateSize(
     }
   }
   bytesCount += 3 + object.relay_network_whitelist.length * 3;
+  bytesCount += 3 + object.encryption_algorithm.length * 3;
+  bytesCount += 3 + object.tld_dns_zone.length * 3;
   bytesCount += 3 + object.tcp_whitelist.length * 3;
   bytesCount += 3 + object.udp_whitelist.length * 3;
+  bytesCount += 3 + object.exit_nodes.length * 3;
+  {
+    for (var i = 0; i < object.exit_nodes.length; i++) {
+      final value = object.exit_nodes[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.local_private_key.length * 3;
+  bytesCount += 3 + object.local_public_key.length * 3;
+  bytesCount += 3 + object.manual_routes.length * 3;
+  {
+    for (var i = 0; i < object.manual_routes.length; i++) {
+      final value = object.manual_routes[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.peer_public_keys.length * 3;
+  {
+    for (var i = 0; i < object.peer_public_keys.length; i++) {
+      final value = object.peer_public_keys[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.stun_servers.length * 3;
+  {
+    for (var i = 0; i < object.stun_servers.length; i++) {
+      final value = object.stun_servers[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.stun_servers_v6.length * 3;
+  {
+    for (var i = 0; i < object.stun_servers_v6.length; i++) {
+      final value = object.stun_servers_v6[i];
+      bytesCount += value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.tcp_stun_servers.length * 3;
+  {
+    for (var i = 0; i < object.tcp_stun_servers.length; i++) {
+      final value = object.tcp_stun_servers[i];
+      bytesCount += value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -331,6 +467,24 @@ void _netConfigSerialize(
   writer.writeString(offsets[39], object.tcp_whitelist);
   writer.writeString(offsets[40], object.udp_whitelist);
   writer.writeBool(offsets[41], object.use_smoltcp);
+  writer.writeBool(offsets[42], object.disable_relay_data);
+  writer.writeBool(offsets[43], object.disable_relay_quic);
+  writer.writeBool(offsets[44], object.disable_upnp);
+  writer.writeString(offsets[45], object.encryption_algorithm);
+  writer.writeBool(offsets[46], object.lazy_p2p);
+  writer.writeBool(offsets[47], object.need_p2p);
+  writer.writeBool(offsets[48], object.p2p_only);
+  writer.writeBool(offsets[49], object.prefer_peer_relay);
+  writer.writeString(offsets[50], object.tld_dns_zone);
+  writer.writeStringList(offsets[51], object.exit_nodes);
+  writer.writeString(offsets[52], object.local_private_key);
+  writer.writeString(offsets[53], object.local_public_key);
+  writer.writeStringList(offsets[54], object.manual_routes);
+  writer.writeStringList(offsets[55], object.peer_public_keys);
+  writer.writeBool(offsets[56], object.secure_mode_enabled);
+  writer.writeStringList(offsets[57], object.stun_servers);
+  writer.writeStringList(offsets[58], object.stun_servers_v6);
+  writer.writeStringList(offsets[59], object.tcp_stun_servers);
 }
 
 NetConfig _netConfigDeserialize(
@@ -390,6 +544,24 @@ NetConfig _netConfigDeserialize(
   object.tcp_whitelist = reader.readString(offsets[39]);
   object.udp_whitelist = reader.readString(offsets[40]);
   object.use_smoltcp = reader.readBool(offsets[41]);
+  object.disable_relay_data = reader.readBool(offsets[42]);
+  object.disable_relay_quic = reader.readBool(offsets[43]);
+  object.disable_upnp = reader.readBool(offsets[44]);
+  object.encryption_algorithm = reader.readString(offsets[45]);
+  object.lazy_p2p = reader.readBool(offsets[46]);
+  object.need_p2p = reader.readBool(offsets[47]);
+  object.p2p_only = reader.readBool(offsets[48]);
+  object.prefer_peer_relay = reader.readBool(offsets[49]);
+  object.tld_dns_zone = reader.readString(offsets[50]);
+  object.exit_nodes = reader.readStringList(offsets[51]) ?? [];
+  object.local_private_key = reader.readString(offsets[52]);
+  object.local_public_key = reader.readString(offsets[53]);
+  object.manual_routes = reader.readStringList(offsets[54]) ?? [];
+  object.peer_public_keys = reader.readStringList(offsets[55]) ?? [];
+  object.secure_mode_enabled = reader.readBool(offsets[56]);
+  object.stun_servers = reader.readStringList(offsets[57]) ?? [];
+  object.stun_servers_v6 = reader.readStringList(offsets[58]) ?? [];
+  object.tcp_stun_servers = reader.readStringList(offsets[59]) ?? [];
   return object;
 }
 
@@ -491,6 +663,42 @@ P _netConfigDeserializeProp<P>(
       return (reader.readString(offset)) as P;
     case 41:
       return (reader.readBool(offset)) as P;
+    case 42:
+      return (reader.readBool(offset)) as P;
+    case 43:
+      return (reader.readBool(offset)) as P;
+    case 44:
+      return (reader.readBool(offset)) as P;
+    case 45:
+      return (reader.readString(offset)) as P;
+    case 46:
+      return (reader.readBool(offset)) as P;
+    case 47:
+      return (reader.readBool(offset)) as P;
+    case 48:
+      return (reader.readBool(offset)) as P;
+    case 49:
+      return (reader.readBool(offset)) as P;
+    case 50:
+      return (reader.readString(offset)) as P;
+    case 51:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 52:
+      return (reader.readString(offset)) as P;
+    case 53:
+      return (reader.readString(offset)) as P;
+    case 54:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 55:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 56:
+      return (reader.readBool(offset)) as P;
+    case 57:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 58:
+      return (reader.readStringList(offset) ?? []) as P;
+    case 59:
+      return (reader.readStringList(offset) ?? []) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }

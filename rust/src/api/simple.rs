@@ -1,4 +1,5 @@
 use easytier::common::config::{ConfigFileControl, PortForwardConfig};
+use easytier::proto::common::SecureModeConfig;
 pub use easytier::{
     common::{
         self,
@@ -384,6 +385,34 @@ pub struct FlagsC {
     pub udp_whitelist: String,
     /// SOCKS5 监听端口，0 表示禁用
     pub socks5_port: u16,
+    /// EasyTier 兼容新增字段
+    pub encryption_algorithm: String,
+    pub p2p_only: bool,
+    pub lazy_p2p: bool,
+    pub need_p2p: bool,
+    pub disable_upnp: bool,
+    pub prefer_peer_relay: bool,
+    pub disable_relay_data: bool,
+    pub disable_relay_quic: bool,
+    pub tld_dns_zone: String,
+    /// 出口节点列表（EasyTier exit_nodes）
+    pub exit_nodes: Vec<String>,
+    /// STUN 服务器列表（EasyTier stun_servers）
+    pub stun_servers: Vec<String>,
+    /// TCP STUN 服务器列表（EasyTier tcp_stun_servers）
+    pub tcp_stun_servers: Vec<String>,
+    /// IPv6 STUN 服务器列表（EasyTier stun_servers_v6）
+    pub stun_servers_v6: Vec<String>,
+    /// 安全模式（SecureModeConfig.enabled）
+    pub secure_mode_enabled: bool,
+    /// X25519 私钥（base64），安全模式下可选
+    pub local_private_key: String,
+    /// X25519 公钥（base64），安全模式下可选
+    pub local_public_key: String,
+    /// 手动路由 CIDR 列表（EasyTier routes）
+    pub manual_routes: Vec<String>,
+    /// 与 severurl 按索引对应的 peer 公钥（base64，可为空）
+    pub peer_public_keys: Vec<String>,
 }
 
 pub struct Forward {
@@ -475,7 +504,69 @@ pub fn create_server(
         flags.enable_quic_proxy = flag.enable_quic_proxy;
         flags.disable_quic_input = flag.disable_quic_input;
         flags.disable_sym_hole_punching = flag.disable_sym_hole_punching;
+        // EasyTier 兼容新增字段
+        flags.encryption_algorithm = flag.encryption_algorithm;
+        flags.p2p_only = flag.p2p_only;
+        flags.lazy_p2p = flag.lazy_p2p;
+        flags.need_p2p = flag.need_p2p;
+        flags.disable_upnp = flag.disable_upnp;
+        flags.prefer_peer_relay = flag.prefer_peer_relay;
+        flags.disable_relay_data = flag.disable_relay_data;
+        flags.disable_relay_quic = flag.disable_relay_quic;
+        flags.tld_dns_zone = flag.tld_dns_zone;
         cfg.set_flags(flags);
+
+        // EasyTier 兼容新增：出口节点
+        if !flag.exit_nodes.is_empty() {
+            let mut nodes = Vec::new();
+            for node in &flag.exit_nodes {
+                match node.parse::<std::net::IpAddr>() {
+                    Ok(ip) => nodes.push(ip),
+                    Err(e) => return Err(format!("Invalid exit node: {}, error: {}", node, e)),
+                }
+            }
+            cfg.set_exit_nodes(nodes);
+        }
+
+        // EasyTier 兼容新增：STUN 服务器
+        if !flag.stun_servers.is_empty() {
+            cfg.set_stun_servers(Some(flag.stun_servers.clone()));
+        }
+        if !flag.tcp_stun_servers.is_empty() {
+            cfg.set_tcp_stun_servers(Some(flag.tcp_stun_servers.clone()));
+        }
+        if !flag.stun_servers_v6.is_empty() {
+            cfg.set_stun_servers_v6(Some(flag.stun_servers_v6.clone()));
+        }
+
+        // EasyTier 兼容新增：安全模式（X25519）
+        if flag.secure_mode_enabled {
+            cfg.set_secure_mode(Some(SecureModeConfig {
+                enabled: true,
+                local_private_key: if flag.local_private_key.is_empty() {
+                    None
+                } else {
+                    Some(flag.local_private_key.clone())
+                },
+                local_public_key: if flag.local_public_key.is_empty() {
+                    None
+                } else {
+                    Some(flag.local_public_key.clone())
+                },
+            }));
+        }
+
+        // EasyTier 兼容新增：手动路由
+        if !flag.manual_routes.is_empty() {
+            let mut routes = Vec::new();
+            for route in &flag.manual_routes {
+                match route.parse::<cidr::Ipv4Cidr>() {
+                    Ok(r) => routes.push(r),
+                    Err(e) => return Err(format!("Invalid route: {}, error: {}", route, e)),
+                }
+            }
+            cfg.set_routes(Some(routes));
+        }
 
         if flag.socks5_port > 0 {
             let portal = format!("socks5://127.0.0.1:{}", flag.socks5_port);
@@ -507,12 +598,19 @@ pub fn create_server(
 
         // Configure peer connections with proper error handling
         let mut peer_configs = Vec::new();
-        for url in severurl {
+        for (idx, url) in severurl.into_iter().enumerate() {
             match url.parse() {
-                Ok(uri) => peer_configs.push(PeerConfig {
-                    uri,
-                    peer_public_key: None,
-                }),
+                Ok(uri) => {
+                    let peer_public_key = flag
+                        .peer_public_keys
+                        .get(idx)
+                        .filter(|k| !k.is_empty())
+                        .cloned();
+                    peer_configs.push(PeerConfig {
+                        uri,
+                        peer_public_key,
+                    })
+                }
                 Err(e) => return Err(format!("Invalid server URL: {}, error: {}", url, e)),
             }
         }

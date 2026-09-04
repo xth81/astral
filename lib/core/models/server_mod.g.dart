@@ -22,20 +22,25 @@ const ServerModSchema = CollectionSchema(
     r'http': PropertySchema(id: 2, name: r'http', type: IsarType.bool),
     r'https': PropertySchema(id: 3, name: r'https', type: IsarType.bool),
     r'name': PropertySchema(id: 4, name: r'name', type: IsarType.string),
-    r'quic': PropertySchema(id: 5, name: r'quic', type: IsarType.bool),
+    r'peer_public_key': PropertySchema(
+      id: 5,
+      name: r'peer_public_key',
+      type: IsarType.string,
+    ),
+    r'quic': PropertySchema(id: 6, name: r'quic', type: IsarType.bool),
     r'sortOrder': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'sortOrder',
       type: IsarType.long,
     ),
-    r'srv': PropertySchema(id: 7, name: r'srv', type: IsarType.bool),
-    r'tcp': PropertySchema(id: 8, name: r'tcp', type: IsarType.bool),
-    r'txt': PropertySchema(id: 9, name: r'txt', type: IsarType.bool),
-    r'udp': PropertySchema(id: 10, name: r'udp', type: IsarType.bool),
-    r'url': PropertySchema(id: 11, name: r'url', type: IsarType.string),
-    r'wg': PropertySchema(id: 12, name: r'wg', type: IsarType.bool),
-    r'ws': PropertySchema(id: 13, name: r'ws', type: IsarType.bool),
-    r'wss': PropertySchema(id: 14, name: r'wss', type: IsarType.bool),
+    r'srv': PropertySchema(id: 8, name: r'srv', type: IsarType.bool),
+    r'tcp': PropertySchema(id: 9, name: r'tcp', type: IsarType.bool),
+    r'txt': PropertySchema(id: 10, name: r'txt', type: IsarType.bool),
+    r'udp': PropertySchema(id: 11, name: r'udp', type: IsarType.bool),
+    r'url': PropertySchema(id: 12, name: r'url', type: IsarType.string),
+    r'wg': PropertySchema(id: 13, name: r'wg', type: IsarType.bool),
+    r'ws': PropertySchema(id: 14, name: r'ws', type: IsarType.bool),
+    r'wss': PropertySchema(id: 15, name: r'wss', type: IsarType.bool),
   },
 
   estimateSize: _serverModEstimateSize,
@@ -60,6 +65,7 @@ int _serverModEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.peer_public_key.length * 3;
   bytesCount += 3 + object.url.length * 3;
   return bytesCount;
 }
@@ -75,16 +81,17 @@ void _serverModSerialize(
   writer.writeBool(offsets[2], object.http);
   writer.writeBool(offsets[3], object.https);
   writer.writeString(offsets[4], object.name);
-  writer.writeBool(offsets[5], object.quic);
-  writer.writeLong(offsets[6], object.sortOrder);
-  writer.writeBool(offsets[7], object.srv);
-  writer.writeBool(offsets[8], object.tcp);
-  writer.writeBool(offsets[9], object.txt);
-  writer.writeBool(offsets[10], object.udp);
-  writer.writeString(offsets[11], object.url);
-  writer.writeBool(offsets[12], object.wg);
-  writer.writeBool(offsets[13], object.ws);
-  writer.writeBool(offsets[14], object.wss);
+  writer.writeString(offsets[5], object.peer_public_key);
+  writer.writeBool(offsets[6], object.quic);
+  writer.writeLong(offsets[7], object.sortOrder);
+  writer.writeBool(offsets[8], object.srv);
+  writer.writeBool(offsets[9], object.tcp);
+  writer.writeBool(offsets[10], object.txt);
+  writer.writeBool(offsets[11], object.udp);
+  writer.writeString(offsets[12], object.url);
+  writer.writeBool(offsets[13], object.wg);
+  writer.writeBool(offsets[14], object.ws);
+  writer.writeBool(offsets[15], object.wss);
 }
 
 ServerMod _serverModDeserialize(
@@ -100,16 +107,17 @@ ServerMod _serverModDeserialize(
     https: reader.readBoolOrNull(offsets[3]) ?? false,
     id: id,
     name: reader.readString(offsets[4]),
-    quic: reader.readBoolOrNull(offsets[5]) ?? false,
-    sortOrder: reader.readLongOrNull(offsets[6]) ?? 0,
-    srv: reader.readBoolOrNull(offsets[7]) ?? false,
-    tcp: reader.readBoolOrNull(offsets[8]) ?? false,
-    txt: reader.readBoolOrNull(offsets[9]) ?? false,
-    udp: reader.readBoolOrNull(offsets[10]) ?? false,
-    url: reader.readString(offsets[11]),
-    wg: reader.readBoolOrNull(offsets[12]) ?? false,
-    ws: reader.readBoolOrNull(offsets[13]) ?? false,
-    wss: reader.readBoolOrNull(offsets[14]) ?? false,
+    peer_public_key: reader.readString(offsets[5]),
+    quic: reader.readBoolOrNull(offsets[6]) ?? false,
+    sortOrder: reader.readLongOrNull(offsets[7]) ?? 0,
+    srv: reader.readBoolOrNull(offsets[8]) ?? false,
+    tcp: reader.readBoolOrNull(offsets[9]) ?? false,
+    txt: reader.readBoolOrNull(offsets[10]) ?? false,
+    udp: reader.readBoolOrNull(offsets[11]) ?? false,
+    url: reader.readString(offsets[12]),
+    wg: reader.readBoolOrNull(offsets[13]) ?? false,
+    ws: reader.readBoolOrNull(offsets[14]) ?? false,
+    wss: reader.readBoolOrNull(offsets[15]) ?? false,
   );
   return object;
 }
@@ -132,11 +140,11 @@ P _serverModDeserializeProp<P>(
     case 4:
       return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
+      return (reader.readString(offset)) as P;
     case 6:
-      return (reader.readLongOrNull(offset) ?? 0) as P;
-    case 7:
       return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 7:
+      return (reader.readLongOrNull(offset) ?? 0) as P;
     case 8:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 9:
@@ -144,12 +152,14 @@ P _serverModDeserializeProp<P>(
     case 10:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 11:
-      return (reader.readString(offset)) as P;
-    case 12:
       return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 12:
+      return (reader.readString(offset)) as P;
     case 13:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 14:
+      return (reader.readBoolOrNull(offset) ?? false) as P;
+    case 15:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');

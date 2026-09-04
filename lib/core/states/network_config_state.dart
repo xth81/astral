@@ -59,6 +59,28 @@ class NetworkConfigState {
   final tcpWhitelist = signal('');
   final udpWhitelist = signal('');
 
+  // ========== EasyTier 兼容配置 (9个) ==========
+  final encryptionAlgorithm = signal('aes-gcm');
+  final p2pOnly = signal(false);
+  final lazyP2p = signal(false);
+  final needP2p = signal(false);
+  final disableUpnp = signal(false);
+  final preferPeerRelay = signal(false);
+  final disableRelayData = signal(false);
+  final disableRelayQuic = signal(false);
+  final tldDnsZone = signal('et.net.');
+
+  // ========== EasyTier 出口/STUN/安全模式/路由 (10个) ==========
+  final exitNodes = signal<List<String>>([]);
+  final stunServers = signal<List<String>>([]);
+  final tcpStunServers = signal<List<String>>([]);
+  final stunServersV6 = signal<List<String>>([]);
+  final secureModeEnabled = signal(false);
+  final localPrivateKey = signal('');
+  final localPublicKey = signal('');
+  final manualRoutes = signal<List<String>>([]);
+  final peerPublicKeys = signal<List<String>>([]);
+
   // ========== 简单的状态更新方法 ==========
 
   void updateIpv4(String value) => ipv4.value = value;
@@ -109,6 +131,24 @@ class NetworkConfigState {
     acceptDns.value = config.accept_dns;
     tcpWhitelist.value = config.tcp_whitelist;
     udpWhitelist.value = config.udp_whitelist;
+    encryptionAlgorithm.value = config.encryption_algorithm;
+    p2pOnly.value = config.p2p_only;
+    lazyP2p.value = config.lazy_p2p;
+    needP2p.value = config.need_p2p;
+    disableUpnp.value = config.disable_upnp;
+    preferPeerRelay.value = config.prefer_peer_relay;
+    disableRelayData.value = config.disable_relay_data;
+    disableRelayQuic.value = config.disable_relay_quic;
+    tldDnsZone.value = config.tld_dns_zone;
+    exitNodes.value = List<String>.from(config.exit_nodes);
+    stunServers.value = List<String>.from(config.stun_servers);
+    tcpStunServers.value = List<String>.from(config.tcp_stun_servers);
+    stunServersV6.value = List<String>.from(config.stun_servers_v6);
+    secureModeEnabled.value = config.secure_mode_enabled;
+    localPrivateKey.value = config.local_private_key;
+    localPublicKey.value = config.local_public_key;
+    manualRoutes.value = List<String>.from(config.manual_routes);
+    peerPublicKeys.value = List<String>.from(config.peer_public_keys);
     autoSetMTU.value = autoSetMtu;
   }
 }

@@ -81,6 +81,171 @@ class NetworkConfigService {
     await _repo.update((c) => c.disable_p2p = value);
   }
 
+  Future<void> updateEnableIpv6(bool value) async {
+    state.enableIpv6.value = value;
+    await _repo.update((c) => c.enable_ipv6 = value);
+  }
+
+  Future<void> updateEnableExitNode(bool value) async {
+    state.enableExitNode.value = value;
+    await _repo.update((c) => c.enable_exit_node = value);
+  }
+
+  Future<void> updateUseSmoltcp(bool value) async {
+    state.useSmoltcp.value = value;
+    await _repo.update((c) => c.use_smoltcp = value);
+  }
+
+  Future<void> updateRelayNetworkWhitelist(String value) async {
+    state.relayNetworkWhitelist.value = value;
+    await _repo.update((c) => c.relay_network_whitelist = value);
+  }
+
+  Future<void> updateRelayAllPeerRpc(bool value) async {
+    state.relayAllPeerRpc.value = value;
+    await _repo.update((c) => c.relay_all_peer_rpc = value);
+  }
+
+  Future<void> updateMultiThread(bool value) async {
+    state.multiThread.value = value;
+    await _repo.update((c) => c.multi_thread = value);
+  }
+
+  Future<void> updateDisableKcpInput(bool value) async {
+    state.disableKcpInput.value = value;
+    await _repo.update((c) => c.disable_kcp_input = value);
+  }
+
+  Future<void> updateDisableRelayKcp(bool value) async {
+    state.disableRelayKcp.value = value;
+    await _repo.update((c) => c.disable_relay_kcp = value);
+  }
+
+  Future<void> updateProxyForwardBySystem(bool value) async {
+    state.proxyForwardBySystem.value = value;
+    await _repo.update((c) => c.proxy_forward_by_system = value);
+  }
+
+  Future<void> updateAcceptDns(bool value) async {
+    state.acceptDns.value = value;
+    await _repo.update((c) => c.accept_dns = value);
+  }
+
+  Future<void> updatePrivateMode(bool value) async {
+    state.privateMode.value = value;
+    await _repo.update((c) => c.private_mode = value);
+  }
+
+  Future<void> updateEnableQuicProxy(bool value) async {
+    state.enableQuicProxy.value = value;
+    await _repo.update((c) => c.enable_quic_proxy = value);
+  }
+
+  Future<void> updateDisableQuicInput(bool value) async {
+    state.disableQuicInput.value = value;
+    await _repo.update((c) => c.disable_quic_input = value);
+  }
+
+  Future<void> updateEncryptionAlgorithm(String value) async {
+    state.encryptionAlgorithm.value = value;
+    await _repo.update((c) => c.encryption_algorithm = value);
+  }
+
+  Future<void> updateP2pOnly(bool value) async {
+    state.p2pOnly.value = value;
+    await _repo.update((c) => c.p2p_only = value);
+  }
+
+  Future<void> updateLazyP2p(bool value) async {
+    state.lazyP2p.value = value;
+    await _repo.update((c) => c.lazy_p2p = value);
+  }
+
+  Future<void> updateNeedP2p(bool value) async {
+    state.needP2p.value = value;
+    await _repo.update((c) => c.need_p2p = value);
+  }
+
+  Future<void> updateDisableUpnp(bool value) async {
+    state.disableUpnp.value = value;
+    await _repo.update((c) => c.disable_upnp = value);
+  }
+
+  Future<void> updatePreferPeerRelay(bool value) async {
+    state.preferPeerRelay.value = value;
+    await _repo.update((c) => c.prefer_peer_relay = value);
+  }
+
+  Future<void> updateDisableRelayData(bool value) async {
+    state.disableRelayData.value = value;
+    await _repo.update((c) => c.disable_relay_data = value);
+  }
+
+  Future<void> updateDisableRelayQuic(bool value) async {
+    state.disableRelayQuic.value = value;
+    await _repo.update((c) => c.disable_relay_quic = value);
+  }
+
+  Future<void> updateTldDnsZone(String value) async {
+    state.tldDnsZone.value = value;
+    await _repo.update((c) => c.tld_dns_zone = value);
+  }
+
+  Future<void> updateExitNodes(List<String> value) async {
+    state.exitNodes.value = value;
+    await _repo.update((c) => c.exit_nodes = value);
+  }
+
+  Future<void> updateStunServers(List<String> value) async {
+    state.stunServers.value = value;
+    await _repo.update((c) => c.stun_servers = value);
+  }
+
+  Future<void> updateTcpStunServers(List<String> value) async {
+    state.tcpStunServers.value = value;
+    await _repo.update((c) => c.tcp_stun_servers = value);
+  }
+
+  Future<void> updateStunServersV6(List<String> value) async {
+    state.stunServersV6.value = value;
+    await _repo.update((c) => c.stun_servers_v6 = value);
+  }
+
+  Future<void> updateSecureModeEnabled(bool value) async {
+    state.secureModeEnabled.value = value;
+    await _repo.update((c) => c.secure_mode_enabled = value);
+  }
+
+  Future<void> updateLocalPrivateKey(String value) async {
+    state.localPrivateKey.value = value;
+    await _repo.update((c) => c.local_private_key = value);
+  }
+
+  Future<void> updateLocalPublicKey(String value) async {
+    state.localPublicKey.value = value;
+    await _repo.update((c) => c.local_public_key = value);
+  }
+
+  Future<void> updateManualRoutes(List<String> value) async {
+    state.manualRoutes.value = value;
+    await _repo.update((c) => c.manual_routes = value);
+  }
+
+  Future<void> updatePeerPublicKeys(List<String> value) async {
+    state.peerPublicKeys.value = value;
+    await _repo.update((c) => c.peer_public_keys = value);
+  }
+
+  Future<void> updateNetworkName(String value) async {
+    state.networkName.value = value;
+    await _repo.update((c) => c.network_name = value);
+  }
+
+  Future<void> updateNetworkSecret(String value) async {
+    state.networkSecret.value = value;
+    await _repo.update((c) => c.network_secret = value);
+  }
+
   Future<void> updateEnableUdpBroadcastRelay(bool value) async {
     state.enableUdpBroadcastRelay.value = value;
     await _repo.update((c) => c.enable_udp_broadcast_relay = value);

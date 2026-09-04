@@ -102,6 +102,36 @@ class FlagsC {
   /// SOCKS5 监听端口，0 表示禁用
   final int socks5Port;
 
+  /// EasyTier 兼容新增字段
+  final String encryptionAlgorithm;
+  final bool p2pOnly;
+  final bool lazyP2p;
+  final bool needP2p;
+  final bool disableUpnp;
+  final bool preferPeerRelay;
+  final bool disableRelayData;
+  final bool disableRelayQuic;
+  final String tldDnsZone;
+
+  /// 出口节点列表（EasyTier exit_nodes）
+  final List<String> exitNodes;
+  /// STUN 服务器列表（EasyTier stun_servers）
+  final List<String> stunServers;
+  /// TCP STUN 服务器列表（EasyTier tcp_stun_servers）
+  final List<String> tcpStunServers;
+  /// IPv6 STUN 服务器列表（EasyTier stun_servers_v6）
+  final List<String> stunServersV6;
+  /// 安全模式（SecureModeConfig.enabled）
+  final bool secureModeEnabled;
+  /// X25519 私钥（base64），安全模式下可选
+  final String localPrivateKey;
+  /// X25519 公钥（base64），安全模式下可选
+  final String localPublicKey;
+  /// 手动路由 CIDR 列表（EasyTier routes）
+  final List<String> manualRoutes;
+  /// 与 severurl 按索引对应的 peer 公钥（base64，可为空）
+  final List<String> peerPublicKeys;
+
   const FlagsC({
     required this.defaultProtocol,
     required this.devName,
@@ -133,6 +163,24 @@ class FlagsC {
     required this.tcpWhitelist,
     required this.udpWhitelist,
     required this.socks5Port,
+    required this.encryptionAlgorithm,
+    required this.p2pOnly,
+    required this.lazyP2p,
+    required this.needP2p,
+    required this.disableUpnp,
+    required this.preferPeerRelay,
+    required this.disableRelayData,
+    required this.disableRelayQuic,
+    required this.tldDnsZone,
+    required this.exitNodes,
+    required this.stunServers,
+    required this.tcpStunServers,
+    required this.stunServersV6,
+    required this.secureModeEnabled,
+    required this.localPrivateKey,
+    required this.localPublicKey,
+    required this.manualRoutes,
+    required this.peerPublicKeys,
   });
 
   @override
@@ -166,7 +214,25 @@ class FlagsC {
       disableSymHolePunching.hashCode ^
       tcpWhitelist.hashCode ^
       udpWhitelist.hashCode ^
-      socks5Port.hashCode;
+      socks5Port.hashCode ^
+      encryptionAlgorithm.hashCode ^
+      p2pOnly.hashCode ^
+      lazyP2p.hashCode ^
+      needP2p.hashCode ^
+      disableUpnp.hashCode ^
+      preferPeerRelay.hashCode ^
+      disableRelayData.hashCode ^
+      disableRelayQuic.hashCode ^
+      tldDnsZone.hashCode ^
+      exitNodes.hashCode ^
+      stunServers.hashCode ^
+      tcpStunServers.hashCode ^
+      stunServersV6.hashCode ^
+      secureModeEnabled.hashCode ^
+      localPrivateKey.hashCode ^
+      localPublicKey.hashCode ^
+      manualRoutes.hashCode ^
+      peerPublicKeys.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -202,7 +268,25 @@ class FlagsC {
           disableSymHolePunching == other.disableSymHolePunching &&
           tcpWhitelist == other.tcpWhitelist &&
           udpWhitelist == other.udpWhitelist &&
-          socks5Port == other.socks5Port;
+          socks5Port == other.socks5Port &&
+          encryptionAlgorithm == other.encryptionAlgorithm &&
+          p2pOnly == other.p2pOnly &&
+          lazyP2p == other.lazyP2p &&
+          needP2p == other.needP2p &&
+          disableUpnp == other.disableUpnp &&
+          preferPeerRelay == other.preferPeerRelay &&
+          disableRelayData == other.disableRelayData &&
+          disableRelayQuic == other.disableRelayQuic &&
+          tldDnsZone == other.tldDnsZone &&
+          exitNodes == other.exitNodes &&
+          stunServers == other.stunServers &&
+          tcpStunServers == other.tcpStunServers &&
+          stunServersV6 == other.stunServersV6 &&
+          secureModeEnabled == other.secureModeEnabled &&
+          localPrivateKey == other.localPrivateKey &&
+          localPublicKey == other.localPublicKey &&
+          manualRoutes == other.manualRoutes &&
+          peerPublicKeys == other.peerPublicKeys;
 }
 
 class Forward {

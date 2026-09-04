@@ -17,7 +17,11 @@ class NetworkSettingsPage extends BaseSettingsPage {
       children: [
         NetworkBasicSettingsCard(),
         const SizedBox(height: 16),
+        NetworkIdentitySettingsCard(),
+        const SizedBox(height: 16),
         NetworkAdvancedSettingsCard(),
+        const SizedBox(height: 16),
+        EasyTierCompatSettingsCard(),
         const SizedBox(height: 16),
         NetworkHopSettingsCard(),
       ],

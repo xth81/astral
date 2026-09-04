@@ -2809,6 +2809,24 @@ impl SseDecode for crate::api::simple::FlagsC {
         let mut var_tcpWhitelist = <String>::sse_decode(deserializer);
         let mut var_udpWhitelist = <String>::sse_decode(deserializer);
         let mut var_socks5Port = <u16>::sse_decode(deserializer);
+        let mut var_encryptionAlgorithm = <String>::sse_decode(deserializer);
+        let mut var_p2pOnly = <bool>::sse_decode(deserializer);
+        let mut var_lazyP2p = <bool>::sse_decode(deserializer);
+        let mut var_needP2p = <bool>::sse_decode(deserializer);
+        let mut var_disableUpnp = <bool>::sse_decode(deserializer);
+        let mut var_preferPeerRelay = <bool>::sse_decode(deserializer);
+        let mut var_disableRelayData = <bool>::sse_decode(deserializer);
+        let mut var_disableRelayQuic = <bool>::sse_decode(deserializer);
+        let mut var_tldDnsZone = <String>::sse_decode(deserializer);
+        let mut var_exitNodes = <Vec<String>>::sse_decode(deserializer);
+        let mut var_stunServers = <Vec<String>>::sse_decode(deserializer);
+        let mut var_tcpStunServers = <Vec<String>>::sse_decode(deserializer);
+        let mut var_stunServersV6 = <Vec<String>>::sse_decode(deserializer);
+        let mut var_secureModeEnabled = <bool>::sse_decode(deserializer);
+        let mut var_localPrivateKey = <String>::sse_decode(deserializer);
+        let mut var_localPublicKey = <String>::sse_decode(deserializer);
+        let mut var_manualRoutes = <Vec<String>>::sse_decode(deserializer);
+        let mut var_peerPublicKeys = <Vec<String>>::sse_decode(deserializer);
         return crate::api::simple::FlagsC {
             default_protocol: var_defaultProtocol,
             dev_name: var_devName,
@@ -2840,6 +2858,24 @@ impl SseDecode for crate::api::simple::FlagsC {
             tcp_whitelist: var_tcpWhitelist,
             udp_whitelist: var_udpWhitelist,
             socks5_port: var_socks5Port,
+            encryption_algorithm: var_encryptionAlgorithm,
+            p2p_only: var_p2pOnly,
+            lazy_p2p: var_lazyP2p,
+            need_p2p: var_needP2p,
+            disable_upnp: var_disableUpnp,
+            prefer_peer_relay: var_preferPeerRelay,
+            disable_relay_data: var_disableRelayData,
+            disable_relay_quic: var_disableRelayQuic,
+            tld_dns_zone: var_tldDnsZone,
+            exit_nodes: var_exitNodes,
+            stun_servers: var_stunServers,
+            tcp_stun_servers: var_tcpStunServers,
+            stun_servers_v6: var_stunServersV6,
+            secure_mode_enabled: var_secureModeEnabled,
+            local_private_key: var_localPrivateKey,
+            local_public_key: var_localPublicKey,
+            manual_routes: var_manualRoutes,
+            peer_public_keys: var_peerPublicKeys,
         };
     }
 }
@@ -3642,6 +3678,24 @@ impl flutter_rust_bridge::IntoDart for crate::api::simple::FlagsC {
             self.tcp_whitelist.into_into_dart().into_dart(),
             self.udp_whitelist.into_into_dart().into_dart(),
             self.socks5_port.into_into_dart().into_dart(),
+            self.encryption_algorithm.into_into_dart().into_dart(),
+            self.p2p_only.into_into_dart().into_dart(),
+            self.lazy_p2p.into_into_dart().into_dart(),
+            self.need_p2p.into_into_dart().into_dart(),
+            self.disable_upnp.into_into_dart().into_dart(),
+            self.prefer_peer_relay.into_into_dart().into_dart(),
+            self.disable_relay_data.into_into_dart().into_dart(),
+            self.disable_relay_quic.into_into_dart().into_dart(),
+            self.tld_dns_zone.into_into_dart().into_dart(),
+            self.exit_nodes.into_into_dart().into_dart(),
+            self.stun_servers.into_into_dart().into_dart(),
+            self.tcp_stun_servers.into_into_dart().into_dart(),
+            self.stun_servers_v6.into_into_dart().into_dart(),
+            self.secure_mode_enabled.into_into_dart().into_dart(),
+            self.local_private_key.into_into_dart().into_dart(),
+            self.local_public_key.into_into_dart().into_dart(),
+            self.manual_routes.into_into_dart().into_dart(),
+            self.peer_public_keys.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -4104,6 +4158,24 @@ impl SseEncode for crate::api::simple::FlagsC {
         <String>::sse_encode(self.tcp_whitelist, serializer);
         <String>::sse_encode(self.udp_whitelist, serializer);
         <u16>::sse_encode(self.socks5_port, serializer);
+        <String>::sse_encode(self.encryption_algorithm, serializer);
+        <bool>::sse_encode(self.p2p_only, serializer);
+        <bool>::sse_encode(self.lazy_p2p, serializer);
+        <bool>::sse_encode(self.need_p2p, serializer);
+        <bool>::sse_encode(self.disable_upnp, serializer);
+        <bool>::sse_encode(self.prefer_peer_relay, serializer);
+        <bool>::sse_encode(self.disable_relay_data, serializer);
+        <bool>::sse_encode(self.disable_relay_quic, serializer);
+        <String>::sse_encode(self.tld_dns_zone, serializer);
+        <Vec<String>>::sse_encode(self.exit_nodes, serializer);
+        <Vec<String>>::sse_encode(self.stun_servers, serializer);
+        <Vec<String>>::sse_encode(self.tcp_stun_servers, serializer);
+        <Vec<String>>::sse_encode(self.stun_servers_v6, serializer);
+        <bool>::sse_encode(self.secure_mode_enabled, serializer);
+        <String>::sse_encode(self.local_private_key, serializer);
+        <String>::sse_encode(self.local_public_key, serializer);
+        <Vec<String>>::sse_encode(self.manual_routes, serializer);
+        <Vec<String>>::sse_encode(self.peer_public_keys, serializer);
     }
 }
 

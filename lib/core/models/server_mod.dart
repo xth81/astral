@@ -31,6 +31,9 @@ class ServerMod {
   // https 开启
   bool https = false;
 
+  /// EasyTier peer_public_key（base64 X25519 公钥，可选，未空时不固定）
+  String peer_public_key = "";
+
   /// 排序顺序
   int sortOrder = 0;
 
@@ -51,6 +54,7 @@ class ServerMod {
     this.srv = false,
     this.http = false,
     this.https = false,
+    this.peer_public_key = "",
     this.sortOrder = 0, // 添加排序字段初始化
   });
 }

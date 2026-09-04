@@ -145,4 +145,58 @@ class NetConfig {
 
   /// UDP端口白名单（逗号分隔，如: "53,5000-6000"）
   String udp_whitelist = '';
+
+  /// EasyTier 加密算法（aes-gcm / aes-256-gcm / chacha20-poly1305）
+  String encryption_algorithm = 'aes-gcm';
+
+  /// 仅使用P2P直连（禁用所有中转）
+  bool p2p_only = false;
+
+  /// 懒加载P2P
+  bool lazy_p2p = false;
+
+  /// 强制需要P2P连接
+  bool need_p2p = false;
+
+  /// 禁用UPnP
+  bool disable_upnp = false;
+
+  /// 优先使用对等节点中继
+  bool prefer_peer_relay = false;
+
+  /// 禁用中继数据转发
+  bool disable_relay_data = false;
+
+  /// 禁用QUIC中继
+  bool disable_relay_quic = false;
+
+  /// Magic DNS 顶级域名
+  String tld_dns_zone = 'et.net.';
+
+  /// 出口节点列表（EasyTier exit_nodes）
+  List<String> exit_nodes = [];
+
+  /// STUN 服务器列表（EasyTier stun_servers）
+  List<String> stun_servers = [];
+
+  /// TCP STUN 服务器列表（EasyTier tcp_stun_servers）
+  List<String> tcp_stun_servers = [];
+
+  /// IPv6 STUN 服务器列表（EasyTier stun_servers_v6）
+  List<String> stun_servers_v6 = [];
+
+  /// 安全模式（SecureModeConfig.enabled）
+  bool secure_mode_enabled = false;
+
+  /// X25519 私钥（base64），安全模式下可选
+  String local_private_key = '';
+
+  /// X25519 公钥（base64），安全模式下可选
+  String local_public_key = '';
+
+  /// 手动路由 CIDR 列表（EasyTier routes）
+  List<String> manual_routes = [];
+
+  /// 与 peer 按索引对应的公钥（base64，可为空）
+  List<String> peer_public_keys = [];
 }

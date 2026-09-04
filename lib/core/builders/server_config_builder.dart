@@ -23,6 +23,8 @@ class ServerConfigBuilder {
   List<String> _serverUrls = [];
   List<String> _listenerUrls = [];
   List<String> _cidrs = [];
+  // 与 _serverUrls 按索引对应的 peer 公钥（EasyTier peer_public_key）
+  List<String> _peerPublicKeys = [];
   final List<Forward> _forwards = [];
   FlagsC? _flags;
 
@@ -76,11 +78,53 @@ class ServerConfigBuilder {
     return urls;
   }
 
+  /// 收集与 [urls] 按索引对应的 peer 公钥列表（EasyTier peer_public_key）
+  List<String> _collectPeerPublicKeys(Iterable<ServerMod> servers) {
+    final keys = <String>[];
+    for (final server in servers) {
+      // 与 _expandServerUrls 的协议展开顺序保持一致
+      for (final enabled in [
+        server.tcp,
+        server.faketcp,
+        server.udp,
+        server.ws,
+        server.wss,
+        server.quic,
+        server.wg,
+        server.txt,
+        server.srv,
+        server.http,
+        server.https,
+      ]) {
+        if (enabled) keys.add(server.peer_public_key);
+      }
+    }
+    return keys;
+  }
+
   /// 设置房间信息
+  ///
+  /// EasyTier 的 network_name / network_secret 默认取房间的 roomName / password；
+  /// 若用户在设置中填了自定义网络名称/密钥，则优先使用自定义值（原版易难模式）。
   ServerConfigBuilder withRoom(dynamic room) {
-    _roomName = room.roomName;
-    _roomPassword = room.password;
-    _log('房间: $_roomName');
+    final customName = _services.networkConfigState.networkName.value;
+    final customSecret = _services.networkConfigState.networkSecret.value;
+
+    if (customName.isNotEmpty) {
+      _roomName = customName;
+      _log('网络名称: 自定义 $customName');
+    } else {
+      _roomName = room.roomName;
+      _log('网络名称: 房间 ${room.roomName}');
+    }
+
+    if (customSecret.isNotEmpty) {
+      _roomPassword = customSecret;
+      _log('网络密钥: 自定义');
+    } else {
+      _roomPassword = room.password;
+    }
+
     return this;
   }
 
@@ -107,31 +151,37 @@ class ServerConfigBuilder {
 
   /// 构建服务器URL列表
   ServerConfigBuilder withServers(dynamic room, List<ServerMod> globalServers) {
-    final enabledUrls = _expandServerUrls(
-      globalServers.where((s) => s.enable),
-    );
+    final enabledServers = globalServers.where((s) => s.enable).toList();
+    final enabledUrls = _expandServerUrls(enabledServers);
+    final enabledKeys = _collectPeerPublicKeys(enabledServers);
+
     // 房间服务器优先 - 直接检查列表，不依赖 hasServers 标志
     if (room.servers != null && room.servers.isNotEmpty) {
       final roomUrls = List<String>.from(room.servers);
       final merged = <String>[];
+      final mergedKeys = <String>[];
       final seen = <String>{};
       for (final url in roomUrls) {
         if (seen.add(url)) {
           merged.add(url);
+          mergedKeys.add(''); // 房间服务器没有公钥
         }
       }
-      for (final url in enabledUrls) {
+      for (final (i, url) in enabledUrls.indexed) {
         if (seen.add(url)) {
           merged.add(url);
+          mergedKeys.add(enabledKeys[i]);
         }
       }
       _serverUrls = merged;
+      _peerPublicKeys = mergedKeys;
       _log('📡 使用房间服务器 (${_serverUrls.length} 个): $_serverUrls');
       return this;
     }
 
     // 否则使用全局启用的服务器
     _serverUrls = enabledUrls;
+    _peerPublicKeys = enabledKeys;
     _log('📡 使用全局服务器 (${_serverUrls.length} 个)');
     return this;
   }
@@ -176,7 +226,9 @@ class ServerConfigBuilder {
       enableExitNode: nc.enableExitNode.value,
       noTun: rc?.noTun ?? nc.noTun.value,
       useSmoltcp: nc.useSmoltcp.value,
-      relayNetworkWhitelist: '*',
+      relayNetworkWhitelist: nc.relayNetworkWhitelist.value.isEmpty
+          ? '*'
+          : nc.relayNetworkWhitelist.value,
       disableP2P: rc?.disableP2p ?? nc.disableP2p.value,
       enableUdpBroadcastRelay: nc.enableUdpBroadcastRelay.value,
       relayAllPeerRpc: nc.relayAllPeerRpc.value,
@@ -199,6 +251,24 @@ class ServerConfigBuilder {
       tcpWhitelist: nc.tcpWhitelist.value,
       udpWhitelist: nc.udpWhitelist.value,
       socks5Port: nc.enableSocks5.value ? nc.socks5Port.value : 0,
+      encryptionAlgorithm: nc.encryptionAlgorithm.value,
+      p2pOnly: nc.p2pOnly.value,
+      lazyP2p: nc.lazyP2p.value,
+      needP2p: nc.needP2p.value,
+      disableUpnp: nc.disableUpnp.value,
+      preferPeerRelay: nc.preferPeerRelay.value,
+      disableRelayData: nc.disableRelayData.value,
+      disableRelayQuic: nc.disableRelayQuic.value,
+      tldDnsZone: nc.tldDnsZone.value,
+      exitNodes: nc.exitNodes.value,
+      stunServers: nc.stunServers.value,
+      tcpStunServers: nc.tcpStunServers.value,
+      stunServersV6: nc.stunServersV6.value,
+      secureModeEnabled: nc.secureModeEnabled.value,
+      localPrivateKey: nc.localPrivateKey.value,
+      localPublicKey: nc.localPublicKey.value,
+      manualRoutes: nc.manualRoutes.value,
+      peerPublicKeys: _peerPublicKeys,
     );
 
     _log('⚙️  运行标志配置完成 (加密: $enableEncryption, SOCKS5: ${_flags!.socks5Port})');
