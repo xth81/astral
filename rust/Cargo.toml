@@ -26,7 +26,7 @@ surge-ping = "0.8"
 uuid = { version = "1.0", features = ["v4"] }
 cidr = { version = "0.3.1", features = ["serde"] }
 
-easytier = { git = "https://github.com/EasyTier/EasyTier.git", features = ["wireguard", "websocket", "quic", "tun", "smoltcp", "socks5", "kcp", "faketcp", "magic-dns", "zstd"] }
+easytier = { git = "https://github.com/EasyTier/EasyTier.git", rev = "8e1d0791421e95dd73533db07463b3afa08495ae", features = ["wireguard", "websocket", "quic", "tun", "smoltcp", "socks5", "kcp", "faketcp", "magic-dns", "zstd"] }
 elevated-command = "1.1.2"
 
 [target.'cfg(target_os = "windows")'.dependencies]
